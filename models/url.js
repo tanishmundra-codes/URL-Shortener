@@ -6,13 +6,38 @@ async function createShortURL(short_id, redirect_url) {
     VALUES ($1, $2)
     RETURNING *
     `;
-    
+
     const values = [short_id, redirect_url];
 
     const result = await client.query(query, values);
     return result.rows[0];
 }
 
+async function getRedirectURL(short_id) {
+    const query = `
+    SELECT redirect_url FROM url
+    WHERE short_id = $1
+    `;
+
+    const result = await client.query(query, [short_id]);
+    if (result.rows.length === 0) return null;
+
+    return result.rows[0];
+};
+
+async function logVisit(short_id) {
+    const query = `
+    UPDATE url
+    SET visit_history = visit_history || $1
+    WHERE short_id = $2
+    `;
+
+    const newVisit = JSON.stringify([{ timestamp: Date.now() }]);
+    await client.query(query, [newVisit, short_id]);
+}
+
 module.exports = {
-    createShortURL
+    createShortURL,
+    getRedirectURL,
+    logVisit
 }
