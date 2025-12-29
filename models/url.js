@@ -36,8 +36,21 @@ async function logVisit(short_id) {
     await client.query(query, [newVisit, short_id]);
 }
 
+async function viewAnalytics(short_id) {
+    const query = `
+    SELECT visit_history FROM url
+    WHERE short_id = $1
+    `;
+
+    const result = await client.query(query, [short_id]);
+    if(result.rows.length == 0) return null;
+    
+    return result.rows[0];
+}
+
 module.exports = {
     createShortURL,
     getRedirectURL,
-    logVisit
+    logVisit,
+    viewAnalytics
 }

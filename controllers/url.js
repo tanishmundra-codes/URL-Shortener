@@ -36,7 +36,24 @@ async function handleRedirectUrl(req, res) {
     }
 }
 
+async function handleAnalytics(req, res) {
+    const ID = req.params.id;
+
+    try {
+        const log = await urlModel.viewAnalytics(ID);
+        if (!log) {
+            return res.status(404).json({ error: "Short URL not found" });
+        }
+        
+        return res.json({ analytics: log.visit_history })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Database Error" });
+    }
+}
+
 module.exports = {
     handleCreateNewUrl,
-    handleRedirectUrl
+    handleRedirectUrl,
+    handleAnalytics
 }
