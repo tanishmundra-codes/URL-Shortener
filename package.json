@@ -1,0 +1,27 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000U\u0000R\u0000L\u0000-\u0000S\u0000h\u0000o\u0000r\u0000t\u0000e\u0000n\u0000e\u0000r\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanishmundra-codes/URL-Shortener.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tanishmundra-codes/URL-Shortener/issues"
+  },
+  "homepage": "https://github.com/tanishmundra-codes/URL-Shortener#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nanoid": "^5.1.6",
+    "pg": "^8.16.3",
+    "router": "^2.2.0"
+  }
+}
