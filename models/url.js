@@ -48,9 +48,19 @@ async function viewAnalytics(short_id) {
     return result.rows[0];
 }
 
+async function getAllUrls() {
+    const query = `
+    SELECT * FROM url
+    `;
+
+    const result = await client.query(query);
+    return result.rows; 
+}
+
 module.exports = {
     createShortURL,
     getRedirectURL,
     logVisit,
-    viewAnalytics
+    viewAnalytics,
+    getAllUrls
 }

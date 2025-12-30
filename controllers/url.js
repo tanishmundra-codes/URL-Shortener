@@ -11,7 +11,7 @@ async function handleCreateNewUrl(req, res) {
             shortID,
             body.url
         );
-        return res.status(201).json({ id: shortID });
+        return res.status(201).json({ shortID : shortID });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: "Database Error" });
@@ -45,7 +45,18 @@ async function handleAnalytics(req, res) {
             return res.status(404).json({ error: "Short URL not found" });
         }
         
-        return res.json({ analytics: log.visit_history })
+        return res.json({ totalClicks : log.visit_history.length, visitHistory : log.visit_history});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Database Error" });
+    }
+}
+
+async function handleGetAllUrls(req, res) {
+    try {
+        const allUrls = await urlModel.getAllUrls();
+
+        return res.json(allUrls);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: "Database Error" });
@@ -55,5 +66,6 @@ async function handleAnalytics(req, res) {
 module.exports = {
     handleCreateNewUrl,
     handleRedirectUrl,
-    handleAnalytics
+    handleAnalytics,
+    handleGetAllUrls
 }
