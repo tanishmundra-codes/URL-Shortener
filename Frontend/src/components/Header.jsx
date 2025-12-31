@@ -30,11 +30,15 @@ const Header = () => {
             )}
           </Link>
           
-          {/* <div className="relative h-full flex items-center cursor-pointer group">
-            <span className="text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors duration-200">
+          <Link to="/signup" className="relative h-full flex items-center cursor-pointer group">
+            <span className={`text-sm font-medium transition-colors duration-200 
+              ${isActive('/signup') ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>
               Login/Signup
             </span>
-          </div>  */}
+            {isActive('/signup') && (
+              <div className="absolute left-0 right-0 bottom-0 h-0.75 bg-blue-500 rounded-t-md"></div>
+            )}
+          </Link>
 
         </nav>
       </header>
