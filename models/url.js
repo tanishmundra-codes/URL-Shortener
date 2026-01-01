@@ -1,13 +1,13 @@
 const { client } = require("../connection");
 
-async function createShortURL(short_id, redirect_url) {
+async function createShortURL(short_id, redirect_url, user_id) {
     const query = `
-    INSERT INTO url
-    VALUES ($1, $2)
-    RETURNING *
+    INSERT INTO url (short_id, redirect_url, created_by)
+    VALUES ($1, $2, $3)
+    RETURNING *;
     `;
 
-    const values = [short_id, redirect_url];
+    const values = [short_id, redirect_url, user_id];
 
     const result = await client.query(query, values);
     return result.rows[0];
@@ -48,12 +48,13 @@ async function viewAnalytics(short_id) {
     return result.rows[0];
 }
 
-async function getAllUrls() {
+async function getUserUrls(user_id) {
     const query = `
     SELECT * FROM url
+    WHERE created_by = $1
     `;
 
-    const result = await client.query(query);
+    const result = await client.query(query, [user_id]);
     return result.rows; 
 }
 
@@ -62,5 +63,5 @@ module.exports = {
     getRedirectURL,
     logVisit,
     viewAnalytics,
-    getAllUrls
+    getUserUrls
 }
