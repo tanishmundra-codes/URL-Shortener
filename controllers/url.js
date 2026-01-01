@@ -52,20 +52,19 @@ async function handleAnalytics(req, res) {
     }
 }
 
-async function handleGetAllUrls(req, res) {
-    try {
-        const allUrls = await urlModel.getAllUrls();
-
-        return res.json(allUrls);
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: "Database Error" });
+async function handleGetUserUrls(req, res) {
+    if (!req.user) {
+        return res.json([]); 
     }
+
+    const urls = await getUserUrls(req.user.id);
+    
+    return res.json(urls);
 }
 
 module.exports = {
     handleCreateNewUrl,
     handleRedirectUrl,
     handleAnalytics,
-    handleGetAllUrls
+    handleGetUserUrls
 }
