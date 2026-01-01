@@ -4,10 +4,13 @@ const Analytics = () => {
     const [data, setData] = useState([]);
     const [stats, setStats] = useState({ totalClicks: 0, totalLinks: 0 });
 
+
     useEffect(() => {
         async function fetchAllData() {
             try {
-                const response = await fetch("http://localhost:3000/url/analytics");
+                const response = await fetch("http://localhost:3000/url/analytics", {
+                    credentials: "include"
+                });
                 const result = await response.json();
 
                 setData(result);

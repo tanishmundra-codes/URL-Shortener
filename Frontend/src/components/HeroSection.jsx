@@ -14,8 +14,15 @@ const HeroSection = () => {
             const response = await fetch("http://localhost:3000/url", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ url: inputValue })
+                body: JSON.stringify({ url: inputValue }),
+                credentials : "include"
             });
+
+            if (response.status === 401) {
+                alert("Please login first!");
+                window.location.href = "/login";
+                return;
+            }
 
             const data = await response.json();
 
