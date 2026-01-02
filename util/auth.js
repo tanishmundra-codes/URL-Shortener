@@ -1,13 +1,22 @@
-// HashMap
-const sessionIDTOMapUser = new Map();
+const jwt = require("jsonwebtoken");
+const secretKey = "Secret@$!23nv"
 
-function setUser(id, user) {
-    
-    sessionIDTOMapUser.set(id, user);
+function setUser(user) {
+    return jwt.sign({
+        id : user.id,
+        email : user.email,
+    }, secretKey );
 }
 
-function getUser(id){
-    return sessionIDTOMapUser.get(id);
+function getUser(token){
+    if(!token) return null
+
+    try{
+        return jwt.verify(token, secretKey);
+    }catch(error){
+        return null
+    }
+    
 }
 
 module.exports = {
