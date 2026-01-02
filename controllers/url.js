@@ -1,4 +1,4 @@
-const urlModel = require("../models/url");
+const { createShortURL, getUserUrls, viewAnalytics, getRedirectURL, logVisit} = require("../models/url");
 const { nanoid } = require("nanoid");
 
 async function handleCreateNewUrl(req, res) {
@@ -6,10 +6,13 @@ async function handleCreateNewUrl(req, res) {
     if (!body.url) return res.status(400).json({ error: "Url is Required" });
 
     const shortID = nanoid(8);
+    const userId = req.user ? req.user.id : null;
+
     try {
-        await urlModel.createShortURL(
+        await createShortURL(
             shortID,
-            body.url
+            body.url,
+            userId
         );
         return res.status(201).json({ shortID : shortID });
     } catch (error) {
@@ -22,12 +25,12 @@ async function handleRedirectUrl(req, res) {
     const shortID = req.params.shortID;
 
     try {
-        const entry = await urlModel.getRedirectURL(shortID);
+        const entry = await getRedirectURL(shortID);
         if (!entry) {
             return res.status(404).json({ error: "Short URL not found" });
         }
 
-        await urlModel.logVisit(shortID);
+        await logVisit(shortID);
 
         res.redirect(entry.redirect_url);
     } catch (error) {
@@ -40,7 +43,7 @@ async function handleAnalytics(req, res) {
     const ID = req.params.id;
 
     try {
-        const log = await urlModel.viewAnalytics(ID);
+        const log = await viewAnalytics(ID);
         if (!log) {
             return res.status(404).json({ error: "Short URL not found" });
         }
