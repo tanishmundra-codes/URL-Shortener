@@ -16,7 +16,7 @@ connectDB();
 app.use(cors({
     origin: [
         "http://localhost:5173",    
-        "https://nano-url-three.vercel.app/"   
+        "https://nano-url-three.vercel.app"   
     ],
     credentials: true
 }));
