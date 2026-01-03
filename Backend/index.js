@@ -8,7 +8,7 @@ const cookieParser = require("cookie-parser")
 const {checkForLoginUser, checkAuth} = require("./middleware/auth")
 require('dotenv').config();
 
-app.set('trust proxy', 1);
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +23,7 @@ app.use(cors({
     credentials: true
 }));
 
+app.set('trust proxy', 1);
 app.use(express.json());
 app.use(cookieParser());
 
