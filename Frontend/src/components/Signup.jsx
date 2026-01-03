@@ -5,6 +5,8 @@ import backendUrl from "../api";
 const Signup = () => {
 
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -17,7 +19,7 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Signup Data:", formData);
+        setIsLoading(true);
         try {
             const response = await fetch(`${backendUrl}/user`, {
                 method: "POST",
@@ -31,20 +33,23 @@ const Signup = () => {
 
             if (response.ok) {
                 localStorage.setItem("uid", "logged_in");
-                navigate('/login');
+                navigate('/'); 
             } else {
                 console.error("Signup failed:", data.error);
                 alert(data.error || "Signup failed");
             }
         } catch (error) {
             console.error("Network Error:", error);
+            alert("Server not responding. Please try again.");
+        } finally {
+            setIsLoading(false); 
         }
     };
 
     return (
-        <div className="w-full min-h-[calc(100vh-64px)] bg-[#f0f4f8] flex justify-center items-center p-6 font-sans">
+        <div className="w-full min-h-[calc(100vh-64px)] bg-[#f0f4f8] flex justify-center items-center p-4 md:p-6 font-sans">
 
-            <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg border border-blue-50 animate-fade-in-up">
+            <div className="w-11/12 max-w-md bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-blue-50 animate-fade-in-up">
 
                 <div className="text-center mb-8">
                     <h2 className="text-2xl font-bold text-gray-800">Join the Hub</h2>
@@ -60,6 +65,7 @@ const Signup = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
+                            required
                             className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200 text-gray-700 placeholder-gray-300"
                             placeholder="John Doe"
                         />
@@ -72,6 +78,7 @@ const Signup = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
+                            required
                             className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200 text-gray-700 placeholder-gray-300"
                             placeholder="john@example.com"
                         />
@@ -84,6 +91,7 @@ const Signup = () => {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
+                            required
                             className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-100 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all duration-200 text-gray-700 placeholder-gray-300"
                             placeholder="••••••••"
                         />
@@ -91,15 +99,17 @@ const Signup = () => {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-400 hover:bg-blue-500 text-white font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:-translate-y-0.5"
+                        disabled={isLoading}
+                        className={`w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-blue-200 hover:shadow-blue-300 hover:-translate-y-0.5 
+                        ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
                     >
-                        Create Account
+                        {isLoading ? "Creating Account..." : "Create Account"}
                     </button>
                 </form>
 
                 <div className="mt-8 text-center text-sm text-gray-400">
                     Already have an account?{' '}
-                    <Link to="/login" className="text-blue-400 font-medium hover:text-blue-500 transition-colors">
+                    <Link to="/login" className="text-blue-500 font-medium hover:text-blue-600 transition-colors">
                         Log in
                     </Link>
                 </div>
