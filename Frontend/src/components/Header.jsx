@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import backendUrl from "../api";
 
 const Header = () => {
   const location = useLocation();
@@ -15,7 +16,7 @@ const Header = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:3000/user/logout", {
+      const response = await fetch(`${backendUrl}/user/logout`, {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

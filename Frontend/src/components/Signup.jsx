@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import backendUrl from "../api";
 
 const Signup = () => {
 
@@ -18,7 +19,7 @@ const Signup = () => {
         e.preventDefault();
         console.log("Signup Data:", formData);
         try {
-            const response = await fetch("http://localhost:3000/user/", {
+            const response = await fetch(`${backendUrl}/user`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

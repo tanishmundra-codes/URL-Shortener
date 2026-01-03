@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import backendUrl from "../api";
 
 const Analytics = () => {
     const [data, setData] = useState([]);
@@ -8,7 +9,7 @@ const Analytics = () => {
     useEffect(() => {
         async function fetchAllData() {
             try {
-                const response = await fetch("http://localhost:3000/url/analytics", {
+                const response = await fetch(`${backendUrl}/url/analytics`, {
                     credentials: "include"
                 });
                 const result = await response.json();

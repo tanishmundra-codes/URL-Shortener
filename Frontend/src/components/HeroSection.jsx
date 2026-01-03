@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import backendUrl from "../api";
 
 const HeroSection = () => {
     const [inputValue, setInputValue] = useState("");
@@ -11,7 +12,7 @@ const HeroSection = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/url", {
+            const response = await fetch(`${backendUrl}/url`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ url: inputValue }),
@@ -27,7 +28,7 @@ const HeroSection = () => {
             const data = await response.json();
 
             if (data.shortID) {
-                const fullUrl = `http://localhost:3000/${data.shortID}`;
+                const fullUrl = `${backendUrl}/${data.shortID}`;
                 setShortenedUrl(fullUrl);
             } else {
                 alert("Failed to shorten. Check backend response.");
