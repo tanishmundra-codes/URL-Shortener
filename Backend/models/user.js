@@ -2,7 +2,7 @@ const { client } = require("../connection");
 
 async function createUser(username, email, password) {
     const query = `
-    INSERT INTO users (username, email, password)
+    INSERT INTO users (username, email, password_hash)
     VALUES ($1, $2, $3)
     RETURNING *
     `
