@@ -9,12 +9,12 @@ function App() {
 
   return (
     <Router>
-      <Header/>
+      <Header />
       <Routes>
-        <Route path='/' element={<HeroSection/>}></Route>
-        <Route path='/analytics' element={<Analytics/>}></Route>
-        <Route path='/signup' element={<Signup/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
+        <Route path='/' element={<HeroSection />}></Route>
+        <Route path='/analytics' element={<Analytics />}></Route>
+        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/signup" element={<Signup setIsLoggedIn={setIsLoggedIn} />} />
       </Routes>
     </Router>
   )

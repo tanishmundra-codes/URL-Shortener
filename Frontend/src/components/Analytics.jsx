@@ -1,18 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import backendUrl from "../api";
+import { useNavigate } from 'react-router-dom';
 
 const Analytics = () => {
     const [data, setData] = useState([]);
     const [stats, setStats] = useState({ totalClicks: 0, totalLinks: 0 });
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+
     useEffect(() => {
         async function fetchAllData() {
             try {
+                const token = localStorage.getItem("token");
+
+                if (!token) {
+                    console.error("No token found");
+                    setIsLoading(false);
+                    return; 
+                }
+
                 const response = await fetch(`${backendUrl}/url/analytics`, {
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
                     credentials: "include"
                 });
-                
+
+                if (response.status === 401) {
+                    alert("Session expired. Please login again.");
+                    localStorage.removeItem("token");
+                    navigate("/login");
+                    return;
+                }
+
                 if (!response.ok) {
                     throw new Error("Failed to fetch");
                 }
@@ -35,7 +56,7 @@ const Analytics = () => {
             }
         }
         fetchAllData();
-    }, []);
+    }, [navigate]);
 
     return (
         <div className="w-full bg-[#f0f4f8] min-h-[calc(100vh-64px)] p-4 md:p-6 font-sans flex justify-center pb-20">

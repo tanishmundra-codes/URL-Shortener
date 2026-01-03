@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import backendUrl from "../api";
 
-const Login = ({ setIsLoggedIn }) => { // Accept prop to update UI
+const Login = ({ setIsLoggedIn }) => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,7 +17,7 @@ const Login = ({ setIsLoggedIn }) => { // Accept prop to update UI
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
-                credentials: "include" // Still try to set cookie as backup
+                credentials: "include"
             });
 
             const data = await response.json();
