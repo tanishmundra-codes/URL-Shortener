@@ -33,7 +33,13 @@ const Header = () => {
 
   return (
     <div className="w-full bg-white shadow-sm border-b border-gray-300 sticky top-0 z-50">
-      <header className="flex justify-end items-center px-8 h-16">
+      <header className="flex justify-between items-center px-8 h-16">
+        
+        <Link to="/" className="text-2xl font-bold text-blue-500 tracking-tight">
+          NanoUrl
+        </Link>
+
+        {/* 👇 Navigation stays on the right */}
         <nav className="flex space-x-10 h-full">
 
           <Link to="/" className="relative h-full flex items-center cursor-pointer group">
