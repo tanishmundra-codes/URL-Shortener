@@ -1,40 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import backendUrl from "../api";
 
-const Header = () => {
+const Header = ({ isLoggedIn, setIsLoggedIn }) => { 
   const location = useLocation();
   const navigate = useNavigate();
   const isActive = (path) => location.pathname === path;
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const user = localStorage.getItem("uid");
-    setIsLoggedIn(!!user);
-  }, [location]);
 
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location]);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch(`${backendUrl}/user/logout`, {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (response.ok) {
-        localStorage.removeItem("uid");
-        setIsLoggedIn(false);
-        navigate("/signup"); 
-      }
-    } catch (error) {
-      console.error("Logout failed", error);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    setIsLoggedIn(false);
+    navigate("/login"); 
   };
 
   return (
@@ -44,7 +25,6 @@ const Header = () => {
         <Link to="/" className="text-2xl font-bold text-blue-500 tracking-tight">
           NanoUrl
         </Link>
-
         <nav className="hidden md:flex space-x-10 h-full">
           <Link to="/" className="relative h-full flex items-center cursor-pointer group">
             <span className={`text-sm font-medium transition-colors duration-200 
@@ -67,12 +47,12 @@ const Header = () => {
           </Link>
           
           {!isLoggedIn ? (
-             <Link to="/signup" className="relative h-full flex items-center cursor-pointer group">
+             <Link to="/login" className="relative h-full flex items-center cursor-pointer group">
              <span className={`text-sm font-medium transition-colors duration-200 
-                ${isActive('/signup') ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>
-               Login/Signup
+               ${isActive('/login') ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}>
+               Login / Signup
              </span>
-             {isActive('/signup') && (
+             {isActive('/login') && (
                <div className="absolute left-0 right-0 bottom-0 h-0.75 bg-blue-500 rounded-t-md"></div>
              )}
            </Link>
@@ -91,19 +71,17 @@ const Header = () => {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? (
-      
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
-            
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           )}
         </button>
       </header>
-
+      
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 pb-4 shadow-lg">
           <div className="flex flex-col space-y-1 px-4 pt-2">
@@ -119,8 +97,8 @@ const Header = () => {
             </Link>
 
             {!isLoggedIn ? (
-              <Link to="/signup" className={`block py-2 px-3 rounded-md text-base font-medium 
-                ${isActive('/signup') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'}`}>
+              <Link to="/login" className={`block py-2 px-3 rounded-md text-base font-medium 
+                ${isActive('/login') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50'}`}>
                 Login / Signup
               </Link>
             ) : (
