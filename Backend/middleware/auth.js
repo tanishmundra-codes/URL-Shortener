@@ -1,15 +1,20 @@
-const {getUser} = require("../util/auth")
+const { getUser } = require("../util/auth");
 
 async function checkForLoginUser(req, res, next) {
-    const userUid = req.cookies?.uid
+    const cookieToken = req.cookies?.uid;
+    
+    const headerToken = req.headers["authorization"]?.split("Bearer ")[1];
 
-    if(!userUid) {
-        return res.status(401).json({ error: "User not authenticated" });
+    const token = cookieToken || headerToken;
+
+    if (!token) {
+        return res.status(401).json({ error: "User not authenticated (No Token)" });
     }
-    const user = getUser(userUid);
 
-    if(!user){
-        return  res.status(401).json({ error: "User not authenticated" });
+    const user = getUser(token);
+
+    if (!user) {
+        return res.status(401).json({ error: "User not authenticated (Invalid Token)" });
     }
 
     req.user = user;
@@ -17,12 +22,14 @@ async function checkForLoginUser(req, res, next) {
 }
 
 async function checkAuth(req, res, next) {
-    const userUid = req.cookies?.uid;
-
-    const user = getUser(userUid);
+    const cookieToken = req.cookies?.uid;
+    const headerToken = req.headers["authorization"]?.split("Bearer ")[1];
+    
+    const token = cookieToken || headerToken;
+    const user = getUser(token);
 
     req.user = user;
     next();
 }
 
-module.exports = {checkForLoginUser,checkAuth};
+module.exports = { checkForLoginUser, checkAuth };

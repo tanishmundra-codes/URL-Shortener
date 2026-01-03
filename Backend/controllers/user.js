@@ -38,10 +38,16 @@ async function handleLogin(req, res) {
         res.cookie("uid", token, {
             httpOnly: true,
             secure: true,
-            sameSite: "None", 
+            sameSite: "None",
             maxAge: 24 * 60 * 60 * 1000
         });
-        return res.json({ message: "Login successful", user: user });
+
+
+        return res.json({
+            message: "Login successful",
+            token: token,
+            user: user
+        });
 
     } catch (error) {
         console.log(error);
