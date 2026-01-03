@@ -4,12 +4,22 @@ import HeroSection from './components/HeroSection'
 import Analytics from './components/Analytics'
 import Signup from "./components/Signup"
 import Login from "./components/Login"
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <Router>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+      
       <Routes>
         <Route path='/' element={<HeroSection />}></Route>
         <Route path='/analytics' element={<Analytics />}></Route>
