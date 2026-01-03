@@ -6,9 +6,10 @@ const {handleRedirectUrl} = require("./controllers/url")
 const userRoute = require("./routes/user")
 const cookieParser = require("cookie-parser")
 const {checkForLoginUser, checkAuth} = require("./middleware/auth")
+require('dotenv').config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 connectDB();
 

@@ -29,7 +29,7 @@ const Login = () => {
         const data = await response.json();
 
         if (response.ok) {
-            console.log("Login Success:", data);
+            localStorage.setItem("uid", "logged_in");
             navigate('/'); 
         } else {
             alert(data.error || "Login failed");

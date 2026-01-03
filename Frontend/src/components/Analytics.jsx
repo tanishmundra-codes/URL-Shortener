@@ -58,7 +58,6 @@ const Analytics = () => {
                     <div className="p-6 border-b border-gray-50 flex justify-between items-center">
                         <div>
                             <h2 className="text-xl font-bold text-gray-800">All Shortened Links</h2>
-                            <p className="text-gray-400 text-sm mt-1">Full history from your PostgreSQL database.</p>
                         </div>
                     </div>
 
@@ -119,7 +118,7 @@ const Analytics = () => {
                                 ) : (
                                     <tr>
                                         <td colSpan="4" className="py-10 text-center text-gray-400 italic">
-                                            Database is empty. Go create some links!
+                                            Go create some links!
                                         </td>
                                     </tr>
                                 )}

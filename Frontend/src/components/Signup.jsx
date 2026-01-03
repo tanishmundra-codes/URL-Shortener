@@ -29,7 +29,7 @@ const Signup = () => {
             const data = await response.json();
 
             if (response.ok) {
-                console.log("Success:", data);
+                localStorage.setItem("uid", "logged_in");
                 navigate('/login');
             } else {
                 console.error("Signup failed:", data.error);
