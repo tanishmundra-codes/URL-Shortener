@@ -10,3 +10,4 @@ A full-stack URL shortener with analytics, user authentication, and mobile suppo
 * **Frontend:** React, Tailwind CSS, Vercel Analytics
 * **Backend:** Node.js, Express
 * **Database:** PostgreSQL
+
